@@ -1,12 +1,31 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.ComponentModel.DataAnnotations;
+using RestaurantApp.Helpers;
 
 namespace RestaurantApp.Models
 {
-    internal class Category
+    public class Category : BasePropertyChanged
     {
+        private int? categoryID;
+        public int? CategoryID
+        {
+            get => categoryID;
+            set
+            {
+                categoryID = value;
+                NotifyPropertyChanged();
+            }
+        }
+
+        private string name = "";
+        [MaxLength(100), Required]
+        public string Name
+        {
+            get => name;
+            set
+            {
+                name = value;
+                NotifyPropertyChanged();
+            }
+        }
     }
 }
