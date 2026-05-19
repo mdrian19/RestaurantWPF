@@ -2,7 +2,7 @@
 
 namespace RestaurantApp.Models
 {
-    internal class OrderItem : BasePropertyChanged
+    public class OrderItem : BasePropertyChanged
     {
         public int? OrderItemID { get; set; }
         public int? OrderID { get; set; }

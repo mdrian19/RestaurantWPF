@@ -5,6 +5,8 @@ namespace RestaurantApp.DataAccessLayer
 {
     public static class DALHelper
     {
+        public static int EstimatedDeliveryMinutes = 45;
+
         private static readonly string connectionString =
             ConfigurationManager.ConnectionStrings["RestaurantDB"].ConnectionString;
 

@@ -1,12 +1,12 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace RestaurantApp.Exceptions
 {
-    internal class RestaurantException
+    public class RestaurantException : ApplicationException
     {
+        public RestaurantException(string message) : base(message)
+        {
+            // exit peacefully
+        }
     }
 }

@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace RestaurantApp.DataAccessLayer
 {
-    internal class OrderItemDAL
+    public class OrderItemDAL
     {
     }
 }
