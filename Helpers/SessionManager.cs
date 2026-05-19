@@ -1,12 +1,14 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using RestaurantApp.Models;
 
 namespace RestaurantApp.Helpers
 {
-    internal class SessionManager
+    public static class SessionManager
     {
+        public static UserAccount CurrentUser { get; set; } = null!;
+        public static bool IsLoggedIn => CurrentUser != null;
+        public static bool IsClient => IsLoggedIn && CurrentUser.Role == "Client";
+        public static bool IsEmployee => IsLoggedIn && CurrentUser.Role == "Employee";
+        
+        public static void Logout() => CurrentUser = null!;
     }
 }
