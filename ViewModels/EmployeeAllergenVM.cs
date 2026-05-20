@@ -1,9 +1,10 @@
-﻿using System.Collections.ObjectModel;
-using System.Windows.Input;
-using RestaurantApp.BusinessLogicLayer;
+﻿using RestaurantApp.BusinessLogicLayer;
 using RestaurantApp.Exceptions;
 using RestaurantApp.Helpers;
 using RestaurantApp.Models;
+using System.Collections.ObjectModel;
+using System.ComponentModel;
+using System.Windows.Input;
 
 namespace RestaurantApp.ViewModels
 {
@@ -30,6 +31,8 @@ namespace RestaurantApp.ViewModels
 
         public EmployeeAllergenVM()
         {
+            if (DesignerProperties.GetIsInDesignMode(new System.Windows.DependencyObject()))
+                return;
             allergenBLL.GetAll();
             NotifyPropertyChanged(nameof(AllergenList));
         }

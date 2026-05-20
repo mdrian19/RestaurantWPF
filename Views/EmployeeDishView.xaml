@@ -1,12 +1,207 @@
 ﻿<Window x:Class="RestaurantApp.Views.EmployeeDishView"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:local="clr-namespace:RestaurantApp.Views"
-        mc:Ignorable="d"
-        Title="EmployeeDishView" Height="450" Width="800">
-    <Grid>
-        
+        xmlns:vm="clr-namespace:RestaurantApp.ViewModels"
+        xmlns:conv="clr-namespace:RestaurantApp.Converters"
+        xmlns:i="http://schemas.microsoft.com/xaml/behaviors"
+        Title="Gestionare preparate" Height="650" Width="1000">
+    <Window.DataContext>
+        <vm:EmployeeDishVM />
+    </Window.DataContext>
+    <Window.Resources>
+        <conv:DishConverter x:Key="dishConvert"/>
+    </Window.Resources>
+
+    <Grid Margin="10">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
+
+        <WrapPanel Grid.Row="0" Margin="0,0,0,10">
+            <Button Content="Adauga" Width="90" Height="30"
+                    Margin="0,0,8,0"
+                    Command="{Binding AddCommand}">
+                <Button.CommandParameter>
+                    <MultiBinding Converter="{StaticResource dishConvert}">
+                        <Binding ElementName="comboCat"
+                                 Path="SelectedItem.CategoryID"/>
+                        <Binding ElementName="txtName"  Path="Text"/>
+                        <Binding ElementName="txtPrice" Path="Text"/>
+                        <Binding ElementName="txtPQty"  Path="Text"/>
+                        <Binding ElementName="txtUnit"  Path="Text"/>
+                        <Binding ElementName="txtTQty"  Path="Text"/>
+                        <Binding ElementName="txtPhoto" Path="Text"/>
+                    </MultiBinding>
+                </Button.CommandParameter>
+            </Button>
+            <Button Content="Modifica" Width="90" Height="30"
+                    Margin="0,0,8,0"
+                    Command="{Binding UpdateCommand}"
+                    CommandParameter="{Binding ElementName=dishesGrid,
+                        Path=SelectedItem}"/>
+            <Button Content="Sterge" Width="90" Height="30"
+                    Command="{Binding DeleteCommand}"
+                    CommandParameter="{Binding ElementName=dishesGrid,
+                        Path=SelectedItem}"/>
+        </WrapPanel>
+
+        <Grid Grid.Row="1" Margin="0,0,0,8">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="*"/>
+            </Grid.ColumnDefinitions>
+            <StackPanel Grid.Column="0" Margin="0,0,10,0">
+                <WrapPanel Margin="0,0,0,6">
+                    <Label Width="130" Content="Categorie:"
+                           FontSize="13"/>
+                    <ComboBox Name="comboCat" Width="200"
+                              ItemsSource="{Binding CategoryList}"
+                              DisplayMemberPath="Name"
+                              SelectedValuePath="CategoryID"
+                              SelectedValue="{Binding ElementName=dishesGrid,
+                                  Path=SelectedItem.CategoryID}">
+                        <i:Interaction.Triggers>
+                            <i:EventTrigger EventName="SelectionChanged">
+                                <i:InvokeCommandAction
+                                    Command="{Binding UpdateCommand}"
+                                    CommandParameter="{Binding
+                                        ElementName=dishesGrid,
+                                        Path=SelectedItem}"/>
+                            </i:EventTrigger>
+                        </i:Interaction.Triggers>
+                    </ComboBox>
+                </WrapPanel>
+                <WrapPanel Margin="0,0,0,6">
+                    <Label Width="130" Content="Denumire:"
+                           FontSize="13"/>
+                    <TextBox Name="txtName" Width="200" FontSize="13"
+                             Text="{Binding ElementName=dishesGrid,
+                                 Path=SelectedItem.Name,
+                                 UpdateSourceTrigger=PropertyChanged}"/>
+                </WrapPanel>
+                <WrapPanel Margin="0,0,0,6">
+                    <Label Width="130" Content="Pret (lei):"
+                           FontSize="13"/>
+                    <TextBox Name="txtPrice" Width="200" FontSize="13"
+                             Text="{Binding ElementName=dishesGrid,
+                                 Path=SelectedItem.Price,
+                                 UpdateSourceTrigger=PropertyChanged}"/>
+                </WrapPanel>
+                <WrapPanel Margin="0,0,0,6">
+                    <Label Width="130" Content="Cai fotografii:"
+                           FontSize="13"/>
+                    <TextBox Name="txtPhoto" Width="200" FontSize="13"
+                             Text="{Binding ElementName=dishesGrid,
+                                 Path=SelectedItem.PhotoPaths,
+                                 UpdateSourceTrigger=PropertyChanged}"/>
+                </WrapPanel>
+            </StackPanel>
+            <StackPanel Grid.Column="1">
+                <WrapPanel Margin="0,0,0,6">
+                    <Label Width="150" Content="Cant./portie:"
+                           FontSize="13"/>
+                    <TextBox Name="txtPQty" Width="120" FontSize="13"
+                             Text="{Binding ElementName=dishesGrid,
+                                 Path=SelectedItem.PortionQuantity,
+                                 UpdateSourceTrigger=PropertyChanged}"/>
+                </WrapPanel>
+                <WrapPanel Margin="0,0,0,6">
+                    <Label Width="150" Content="Unitate masura:"
+                           FontSize="13"/>
+                    <TextBox Name="txtUnit" Width="120" FontSize="13"
+                             Text="{Binding ElementName=dishesGrid,
+                                 Path=SelectedItem.PortionUnit,
+                                 UpdateSourceTrigger=PropertyChanged}"/>
+                </WrapPanel>
+                <WrapPanel Margin="0,0,0,6">
+                    <Label Width="150" Content="Cant. totala:"
+                           FontSize="13"/>
+                    <TextBox Name="txtTQty" Width="120" FontSize="13"
+                             Text="{Binding ElementName=dishesGrid,
+                                 Path=SelectedItem.TotalQuantity,
+                                 UpdateSourceTrigger=PropertyChanged}"/>
+                </WrapPanel>
+            </StackPanel>
+        </Grid>
+
+        <TextBlock Grid.Row="2"
+                   Text="{Binding ErrorMessage}"
+                   Foreground="Red" FontSize="13"
+                   Margin="0,0,0,8"/>
+
+        <Grid Grid.Row="3">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="2*"/>
+                <ColumnDefinition Width="*"/>
+            </Grid.ColumnDefinitions>
+
+            <DataGrid Grid.Column="0" Name="dishesGrid"
+                      ItemsSource="{Binding DishList}"
+                      SelectedItem="{Binding SelectedDish}"
+                      AutoGenerateColumns="False"
+                      IsReadOnly="True" Margin="0,0,10,0"
+                      ScrollViewer.VerticalScrollBarVisibility="Visible">
+                <DataGrid.Columns>
+                    <DataGridTextColumn Header="Denumire"
+                        Binding="{Binding Name}" Width="160"/>
+                    <DataGridTextColumn Header="Categorie"
+                        Binding="{Binding CategoryName}" Width="100"/>
+                    <DataGridTextColumn Header="Pret"
+                        Binding="{Binding Price,
+                            StringFormat={}{0:F2}}" Width="70"/>
+                    <DataGridTextColumn Header="Cant./portie"
+                        Binding="{Binding DisplayQuantity}" Width="90"/>
+                    <DataGridTextColumn Header="Stoc total"
+                        Binding="{Binding TotalQuantity}" Width="80"/>
+                    <DataGridTextColumn Header="Disponibil"
+                        Binding="{Binding IsAvailable}" Width="75"/>
+                </DataGrid.Columns>
+            </DataGrid>
+
+            <StackPanel Grid.Column="1">
+                <TextBlock Text="Alergeni preparat selectat"
+                           FontWeight="Bold" FontSize="13"
+                           Margin="0,0,0,6"/>
+                <DataGrid Name="allergensGrid"
+                          ItemsSource="{Binding SelectedDishAllergens}"
+                          AutoGenerateColumns="False"
+                          IsReadOnly="True" Height="160"
+                          ScrollViewer.VerticalScrollBarVisibility="Visible">
+                    <DataGrid.Columns>
+                        <DataGridTextColumn Header="Alergen"
+                            Binding="{Binding Name}" Width="*"/>
+                        <DataGridTemplateColumn Header="Sterge"
+                                                Width="55">
+                            <DataGridTemplateColumn.CellTemplate>
+                                <DataTemplate>
+                                    <Button Content="X"
+                                            Width="36" Height="22"
+                                            Foreground="Red"
+                                            Command="{Binding DataContext.RemoveAllergenCommand,
+                                                RelativeSource={RelativeSource
+                                                    AncestorType=Window}}"
+                                            CommandParameter="{Binding}"/>
+                                </DataTemplate>
+                            </DataGridTemplateColumn.CellTemplate>
+                        </DataGridTemplateColumn>
+                    </DataGrid.Columns>
+                </DataGrid>
+
+                <TextBlock Text="Adauga alergen:"
+                           FontSize="13" Margin="0,10,0,4"/>
+                <ComboBox Name="comboAllergens"
+                          ItemsSource="{Binding AllAllergens}"
+                          SelectedItem="{Binding SelectedAllergen}"
+                          DisplayMemberPath="Name"
+                          Margin="0,0,0,6"/>
+                <Button Content="Asociaza alergen"
+                        Height="28" FontSize="13"
+                        Command="{Binding AddAllergenCommand}"/>
+            </StackPanel>
+        </Grid>
     </Grid>
 </Window>

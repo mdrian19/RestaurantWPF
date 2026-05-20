@@ -1,12 +1,61 @@
 ﻿<Window x:Class="RestaurantApp.Views.EmployeeAllergenView"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:local="clr-namespace:RestaurantApp.Views"
-        mc:Ignorable="d"
-        Title="EmployeeAllergenView" Height="450" Width="800">
-    <Grid>
-        
-    </Grid>
+        xmlns:vm="clr-namespace:RestaurantApp.ViewModels"
+        xmlns:conv="clr-namespace:RestaurantApp.Converters"
+        Title="Gestionare alergeni" Height="420" Width="480">
+    <Window.DataContext>
+        <vm:EmployeeAllergenVM/>
+    </Window.DataContext>
+    <Window.Resources>
+        <conv:CategoryConverter x:Key="allergenConvert"/>
+    </Window.Resources>
+
+    <StackPanel Margin="15">
+        <WrapPanel Margin="0,0,0,10">
+            <Button Content="Adauga" Width="90" Height="30"
+                    Margin="0,0,8,0"
+                    Command="{Binding AddCommand}">
+                <Button.CommandParameter>
+                    <MultiBinding Converter="{StaticResource allergenConvert}">
+                        <Binding ElementName="txtName" Path="Text"/>
+                    </MultiBinding>
+                </Button.CommandParameter>
+            </Button>
+            <Button Content="Modifica" Width="90" Height="30"
+                    Margin="0,0,8,0"
+                    Command="{Binding UpdateCommand}"
+                    CommandParameter="{Binding ElementName=allergensGrid,
+                        Path=SelectedItem}"/>
+            <Button Content="Sterge" Width="90" Height="30"
+                    Command="{Binding DeleteCommand}"
+                    CommandParameter="{Binding ElementName=allergensGrid,
+                        Path=SelectedItem}"/>
+        </WrapPanel>
+
+        <WrapPanel Margin="0,0,0,10">
+            <Label Width="140" Content="Nume alergen:"
+                   FontSize="14"/>
+            <TextBox Name="txtName" Width="250" FontSize="14"
+                     Text="{Binding ElementName=allergensGrid,
+                         Path=SelectedItem.Name,
+                         UpdateSourceTrigger=PropertyChanged}"/>
+        </WrapPanel>
+
+        <TextBlock Text="{Binding ErrorMessage}"
+                   Foreground="Red" FontSize="13"
+                   Margin="0,0,0,8"/>
+
+        <DataGrid Name="allergensGrid"
+                  ItemsSource="{Binding AllergenList}"
+                  AutoGenerateColumns="False"
+                  Height="270" IsReadOnly="False"
+                  ScrollViewer.VerticalScrollBarVisibility="Visible">
+            <DataGrid.Columns>
+                <DataGridTextColumn Header="Denumire alergen"
+                                    Binding="{Binding Name}"
+                                    Width="*"/>
+            </DataGrid.Columns>
+        </DataGrid>
+    </StackPanel>
 </Window>

@@ -23,5 +23,19 @@ namespace RestaurantApp.Views
         {
             InitializeComponent();
         }
+
+        private void Window_Loaded(object sender, RoutedEventArgs e)
+        {
+            pbPassword.PasswordChanged += (s, args) =>
+            {
+                if (DataContext is ViewModels.LoginVM vm)
+                    vm.Password = pbPassword.Password;
+            };
+        }
+
+        protected override void OnPropertyChanged(DependencyPropertyChangedEventArgs e)
+        {
+            base.OnPropertyChanged(e);
+        }
     }
 }

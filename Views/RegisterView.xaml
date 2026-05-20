@@ -1,12 +1,70 @@
 ﻿<Window x:Class="RestaurantApp.Views.RegisterView"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:local="clr-namespace:RestaurantApp.Views"
-        mc:Ignorable="d"
-        Title="RegisterView" Height="450" Width="800">
-    <Grid>
-        
-    </Grid>
+        xmlns:vm="clr-namespace:RestaurantApp.ViewModels"
+        Title="Inregistrare cont client"
+        Height="490" Width="450"
+        Loaded="Window_Loaded">
+    <Window.DataContext>
+        <vm:RegisterVM />
+    </Window.DataContext>
+
+    <StackPanel Margin="25">
+        <TextBlock Text="Creare cont nou"
+                   FontSize="20" FontWeight="Bold"
+                   Margin="0,0,0,20"
+                   HorizontalAlignment="Center"/>
+
+        <WrapPanel Margin="0,0,0,10">
+            <Label Width="140" Content="Prenume:" FontSize="14"/>
+            <TextBox Width="230" FontSize="14"
+                     Text="{Binding FirstName,
+                         UpdateSourceTrigger=PropertyChanged}"/>
+        </WrapPanel>
+        <WrapPanel Margin="0,0,0,10">
+            <Label Width="140" Content="Nume:" FontSize="14"/>
+            <TextBox Width="230" FontSize="14"
+                     Text="{Binding LastName,
+                         UpdateSourceTrigger=PropertyChanged}"/>
+        </WrapPanel>
+        <WrapPanel Margin="0,0,0,10">
+            <Label Width="140" Content="Email:" FontSize="14"/>
+            <TextBox Width="230" FontSize="14"
+                     Text="{Binding Email,
+                         UpdateSourceTrigger=PropertyChanged}"/>
+        </WrapPanel>
+        <WrapPanel Margin="0,0,0,10">
+            <Label Width="140" Content="Telefon:" FontSize="14"/>
+            <TextBox Width="230" FontSize="14"
+                     Text="{Binding Phone,
+                         UpdateSourceTrigger=PropertyChanged}"/>
+        </WrapPanel>
+        <WrapPanel Margin="0,0,0,10">
+            <Label Width="140" Content="Adresa livrare:" FontSize="14"/>
+            <TextBox Width="230" FontSize="14"
+                     Text="{Binding DeliveryAddress,
+                         UpdateSourceTrigger=PropertyChanged}"/>
+        </WrapPanel>
+        <WrapPanel Margin="0,0,0,10">
+            <Label Width="140" Content="Parola:" FontSize="14"/>
+            <PasswordBox Name="pbPassword" Width="230" FontSize="14"/>
+        </WrapPanel>
+        <WrapPanel Margin="0,0,0,15">
+            <Label Width="140" Content="Confirma parola:" FontSize="14"/>
+            <PasswordBox Name="pbConfirm" Width="230" FontSize="14"/>
+        </WrapPanel>
+
+        <TextBlock Text="{Binding ErrorMessage}"
+                   Foreground="Red" FontSize="13"
+                   TextWrapping="Wrap" Margin="0,0,0,6"/>
+        <TextBlock Text="{Binding SuccessMessage}"
+                   Foreground="Green" FontSize="13"
+                   TextWrapping="Wrap" Margin="0,0,0,10"/>
+
+        <Button Content="Inregistreaza-te"
+                Height="38" FontSize="15"
+                Background="#FF2980B9"
+                Foreground="White"
+                Command="{Binding RegisterCommand}"/>
+    </StackPanel>
 </Window>

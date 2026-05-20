@@ -1,4 +1,5 @@
-﻿using System;
+﻿using RestaurantApp.ViewModels;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -22,6 +23,29 @@ namespace RestaurantApp.Views
         public RegisterView()
         {
             InitializeComponent();
+        }
+        private void Window_Loaded(object sender, RoutedEventArgs e)
+        {
+            pbPassword.PasswordChanged += (s, args) =>
+            {
+                if (DataContext is RegisterVM vm)
+                    vm.Password = pbPassword.Password;
+            };
+            pbConfirm.PasswordChanged += (s, args) =>
+            {
+                if (DataContext is RegisterVM vm)
+                    vm.ConfirmPassword = pbConfirm.Password;
+            };
+
+            if (DataContext is RegisterVM viewModel)
+            {
+                viewModel.PropertyChanged += (s, args) =>
+                {
+                    if (args.PropertyName == nameof(RegisterVM.RegisterSuccess)
+                        && viewModel.RegisterSuccess)
+                        this.Close();
+                };
+            }
         }
     }
 }

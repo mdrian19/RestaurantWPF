@@ -1,12 +1,171 @@
-﻿<Window x:Class="RestaurantApp.Views.EmployeeMenuView"
+﻿<!-- Views/EmployeeMenuView.xaml -->
+<Window x:Class="RestaurantApp.Views.EmployeeMenuView"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:local="clr-namespace:RestaurantApp.Views"
-        mc:Ignorable="d"
-        Title="EmployeeMenuView" Height="450" Width="800">
-    <Grid>
-        
+        xmlns:vm="clr-namespace:RestaurantApp.ViewModels"
+        xmlns:i="http://schemas.microsoft.com/xaml/behaviors"
+        Title="Gestionare meniuri" Height="680" Width="950">
+    <Window.DataContext>
+        <vm:EmployeeMenuVM/>
+    </Window.DataContext>
+
+    <Grid Margin="10">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+
+        <GroupBox Grid.Row="0" Header="Meniu nou / Meniu selectat"
+                  FontSize="13" Margin="0,0,0,10" Padding="8">
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="*"/>
+                </Grid.ColumnDefinitions>
+                <StackPanel Grid.Column="0" Margin="0,0,10,0">
+                    <WrapPanel Margin="0,0,0,6">
+                        <Label Width="120" Content="Nume meniu:"
+                               FontSize="13"/>
+                        <TextBox Width="200" FontSize="13"
+                                 Text="{Binding NewMenuName,
+                                     UpdateSourceTrigger=PropertyChanged}"/>
+                    </WrapPanel>
+                    <WrapPanel Margin="0,0,0,6">
+                        <Label Width="120" Content="Categorie:"
+                               FontSize="13"/>
+                        <ComboBox Width="200"
+                                  ItemsSource="{Binding CategoryList}"
+                                  SelectedItem="{Binding SelectedCategory}"
+                                  DisplayMemberPath="Name"/>
+                    </WrapPanel>
+                    <WrapPanel Margin="0,0,0,6">
+                        <TextBlock FontSize="13" Margin="0,4,0,0">
+                            <Run Text="Pret calculat: "/>
+                            <Run Text="{Binding MenuPrice,
+                                     StringFormat={}{0:F2}}"
+                                 FontWeight="Bold"
+                                 Foreground="#FF27AE60"/>
+                            <Run Text=" lei"/>
+                        </TextBlock>
+                    </WrapPanel>
+                </StackPanel>
+
+                <StackPanel Grid.Column="1"
+                            VerticalAlignment="Center">
+                    <Button Content="Adauga meniu nou"
+                            Height="30" Margin="0,0,0,8"
+                            Command="{Binding AddMenuCommand}"/>
+                    <Button Content="Salveaza modificari"
+                            Height="30" Margin="0,0,0,8"
+                            Command="{Binding UpdateMenuCommand}"/>
+                    <Button Content="Sterge meniu selectat"
+                            Height="30"
+                            Foreground="Red"
+                            Command="{Binding DeleteMenuCommand}"/>
+                </StackPanel>
+            </Grid>
+        </GroupBox>
+
+        <TextBlock Grid.Row="1"
+                   Text="{Binding ErrorMessage}"
+                   Foreground="Red" FontSize="13"
+                   Margin="0,0,0,8"/>
+
+        <GroupBox Grid.Row="2"
+                  Header="Preparatele meniului selectat"
+                  FontSize="13" Margin="0,0,0,10" Padding="8">
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="Auto"/>
+                    <ColumnDefinition Width="*"/>
+                </Grid.ColumnDefinitions>
+
+                <StackPanel Grid.Column="0">
+                    <TextBlock Text="Preparate disponibile"
+                               FontWeight="Bold" Margin="0,0,0,4"/>
+                    <DataGrid Name="allDishesGrid"
+                              ItemsSource="{Binding AllDishes}"
+                              SelectedItem="{Binding SelectedDishToAdd}"
+                              AutoGenerateColumns="False"
+                              IsReadOnly="True" Height="160">
+                        <DataGrid.Columns>
+                            <DataGridTextColumn Header="Preparat"
+                                Binding="{Binding Name}" Width="*"/>
+                            <DataGridTextColumn Header="Pret"
+                                Binding="{Binding Price,
+                                    StringFormat={}{0:F2}}"
+                                Width="70"/>
+                        </DataGrid.Columns>
+                    </DataGrid>
+                </StackPanel>
+
+                <StackPanel Grid.Column="1"
+                            VerticalAlignment="Center"
+                            Margin="10,0">
+                    <Button Content="Adauga →"
+                            Width="90" Height="30"
+                            Margin="0,0,0,8"
+                            Command="{Binding AddDishToMenuCommand}"/>
+                    <Button Content="← Sterge"
+                            Width="90" Height="30"
+                            Command="{Binding RemoveDishFromMenuCommand}"
+                            CommandParameter="{Binding
+                                ElementName=menuDishesGrid,
+                                Path=SelectedItem}"/>
+                </StackPanel>
+
+                <StackPanel Grid.Column="2">
+                    <TextBlock Text="Preparate in meniu"
+                               FontWeight="Bold" Margin="0,0,0,4"/>
+                    <DataGrid Name="menuDishesGrid"
+                              ItemsSource="{Binding MenuDishes}"
+                              AutoGenerateColumns="False"
+                              IsReadOnly="True" Height="160">
+                        <DataGrid.Columns>
+                            <DataGridTextColumn Header="Preparat"
+                                Binding="{Binding Name}" Width="*"/>
+                            <DataGridTextColumn Header="Cantitate"
+                                Binding="{Binding DisplayQuantity}"
+                                Width="90"/>
+                            <DataGridTextColumn Header="Pret"
+                                Binding="{Binding Price,
+                                    StringFormat={}{0:F2}}"
+                                Width="70"/>
+                        </DataGrid.Columns>
+                    </DataGrid>
+                </StackPanel>
+            </Grid>
+        </GroupBox>
+
+        <GroupBox Grid.Row="3" Header="Toate meniurile"
+                  FontSize="13" Padding="8">
+            <DataGrid Name="menusGrid"
+                      ItemsSource="{Binding MenuList}"
+                      SelectedItem="{Binding SelectedMenu}"
+                      AutoGenerateColumns="False"
+                      IsReadOnly="True"
+                      ScrollViewer.VerticalScrollBarVisibility="Visible">
+                <DataGrid.Columns>
+                    <DataGridTextColumn Header="Denumire Meniu"
+                        Binding="{Binding Name}" Width="200"/>
+                    <DataGridTextColumn Header="Categorie"
+                        Binding="{Binding CategoryName}" Width="130"/>
+                    <DataGridTextColumn Header="Preparate"
+                        Binding="{Binding DisplayDishes}" Width="*"/>
+                    <DataGridTextColumn Header="Disponibil"
+                        Binding="{Binding IsAvailable}" Width="80"/>
+                </DataGrid.Columns>
+
+                <i:Interaction.Triggers>
+                    <i:EventTrigger EventName="SelectionChanged">
+                        <i:InvokeCommandAction
+                            Command="{Binding UpdateMenuCommand}"/>
+                    </i:EventTrigger>
+                </i:Interaction.Triggers>
+            </DataGrid>
+        </GroupBox>
     </Grid>
 </Window>

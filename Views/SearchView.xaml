@@ -1,12 +1,63 @@
-﻿<Window x:Class="RestaurantApp.Views.SearchView"
-        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:local="clr-namespace:RestaurantApp.Views"
-        mc:Ignorable="d"
-        Title="SearchView" Height="450" Width="800">
-    <Grid>
-        
-    </Grid>
-</Window>
+﻿<Window x:Class="RestaurantApp.Views.SearchView"         
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"         
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"         
+        xmlns:vm="clr-namespace:RestaurantApp.ViewModels"         
+        Title="Cautare preparate" Height="500" Width="700">
+    <Window.DataContext>
+        <vm:SearchVM />
+    </Window.DataContext>
+    <StackPanel Margin="15">
+        <WrapPanel Margin="0,0,0,10">
+            <Label Width="150" Content="Tip cautare:" FontSize="14"/>
+            <ComboBox Width="200" SelectedValue="{Binding SearchType}"                       
+                      SelectedValuePath="Tag">
+                <ComboBoxItem Content="Dupa denumire"   
+                              Tag="Name"                               
+                              IsSelected="True"/>
+                <ComboBoxItem Content="Dupa alergen"    
+                              Tag="Allergen"/>
+            </ComboBox>
+        </WrapPanel>
+        <WrapPanel Margin="0,0,0,10">
+            <Label Width="150" Content="Conditie:" FontSize="14"/>
+            <RadioButton Content="Contine"    
+                         IsChecked="{Binding MustContain}"                          
+                         Margin="0,0,10,0" FontSize="13"/>
+            <RadioButton Content="Nu contine" FontSize="13"/>
+        </WrapPanel>
+        <WrapPanel Margin="0,0,0,10">
+            <Label Width="150" Content="Cuvant cheie:" FontSize="14"/>
+            <TextBox  Width="300" Text="{Binding Keyword,                          
+                      UpdateSourceTrigger=PropertyChanged}"                       
+                      FontSize="14"/>
+        </WrapPanel>
+        <Button Content="Cauta" Width="120" Height="35"                 
+                HorizontalAlignment="Left"                 
+                Command="{Binding SearchCommand}"                 
+                FontSize="14"/>
+        <TextBlock Text="{Binding ErrorMessage}"                    
+                   Foreground="Red" FontSize="13"                    
+                   Margin="0,5,0,5"/>
+        <DataGrid ItemsSource="{Binding Results}"                   
+                  AutoGenerateColumns="False" Height="250"                   
+                  IsReadOnly="True" Margin="0,10,0,0">
+            <DataGrid.Columns>
+                <DataGridTextColumn Header="Categorie"                     
+                                    Binding="{Binding CategoryName}" 
+                                    Width="120"/>
+                <DataGridTextColumn Header="Preparat"                     
+                                    Binding="{Binding Name}" 
+                                    Width="180"/>
+                <DataGridTextColumn Header="Cantitate/portie"                     
+                                    Binding="{Binding DisplayQuantity}" 
+                                    Width="130"/>
+                <DataGridTextColumn Header="Pret (lei)"                     
+                                    Binding="{Binding Price, StringFormat={}{0:F2}}"                     
+                                    Width="100"/>
+                <DataGridTextColumn Header="Disponibil"                     
+                                    Binding="{Binding IsAvailable}" 
+                                    Width="80"/>
+            </DataGrid.Columns>
+        </DataGrid>
+    </StackPanel>
+</Window> 

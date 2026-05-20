@@ -1,12 +1,53 @@
-﻿<Window x:Class="RestaurantApp.Views.EmployeeCategoryView"
-        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:local="clr-namespace:RestaurantApp.Views"
-        mc:Ignorable="d"
-        Title="EmployeeCategoryView" Height="450" Width="800">
-    <Grid>
-        
-    </Grid>
-</Window>
+﻿<Window x:Class="RestaurantApp.Views.EmployeeCategoryView"         
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"         
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"         
+        xmlns:vm="clr-namespace:RestaurantApp.ViewModels"         
+        xmlns:conv="clr-namespace:RestaurantApp.Converters"         
+        Title="Gestionare categorii" Height="450" Width="500">
+    <Window.DataContext>
+        <vm:EmployeeCategoryVM />
+    </Window.DataContext>
+    <StackPanel Margin="15">
+        <StackPanel.Resources>
+            <conv:CategoryConverter x:Key="catConvert"/>
+        </StackPanel.Resources>
+        <WrapPanel Margin="0,0,0,10">
+            <Button Content="Adauga" Width="90" Height="30" Margin="5"                     
+                    Command="{Binding AddCommand}">
+                <Button.CommandParameter>
+                    <MultiBinding Converter="{StaticResource catConvert}">
+                        <Binding ElementName="txtCatName" Path="Text"/>
+                    </MultiBinding>
+                </Button.CommandParameter>
+            </Button>
+            <Button Content="Modifica" Width="90" Height="30" Margin="5"                     
+                    Command="{Binding UpdateCommand}"                     
+                    CommandParameter="{Binding ElementName=catsGrid,                         
+                    Path=SelectedItem}"/>
+            <Button Content="Sterge" Width="90" Height="30" Margin="5"                     
+                    Command="{Binding DeleteCommand}"                     
+                    CommandParameter="{Binding ElementName=catsGrid,                         
+                    Path=SelectedItem}"/>
+        </WrapPanel>
+        <WrapPanel Margin="0,0,0,10">
+            <Label Width="120" Content="Nume categorie:" FontSize="14"/>
+            <TextBox Name="txtCatName" Width="250" FontSize="14"                      
+                     Text="{Binding ElementName=catsGrid,                          
+                     Path=SelectedItem.Name,                          
+                     UpdateSourceTrigger=PropertyChanged}"/>
+        </WrapPanel>
+        <TextBlock Text="{Binding ErrorMessage}"                    
+                   Foreground="Red" FontSize="13" Margin="0,5"/>
+        <DataGrid Name="catsGrid"                   
+                  ItemsSource="{Binding CategoryList}"                   
+                  AutoGenerateColumns="False" Height="280"                   
+                  IsReadOnly="False"                   
+                  ScrollViewer.VerticalScrollBarVisibility="Visible">
+            <DataGrid.Columns>
+                <DataGridTextColumn Header="Denumire categorie"                                    
+                                    Binding="{Binding Name}"                                     
+                                    Width="*"/>
+            </DataGrid.Columns>
+        </DataGrid>
+    </StackPanel>
+</Window> 

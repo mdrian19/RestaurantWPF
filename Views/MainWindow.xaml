@@ -9,7 +9,7 @@
         Title="Restaurant Online" Height="600" Width="900">
 
     <Window.DataContext>
-        <vm:MainWindowVM />
+        <vm:MainWindowVM/>
     </Window.DataContext>
 
     <DockPanel>

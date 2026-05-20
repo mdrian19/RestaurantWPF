@@ -3,6 +3,7 @@ using RestaurantApp.DataAccessLayer;
 using RestaurantApp.Helpers;
 using RestaurantApp.Models;
 using System.Collections.ObjectModel;
+using System.ComponentModel;
 using System.Windows.Input;
 
 namespace RestaurantApp.ViewModels
@@ -22,6 +23,8 @@ namespace RestaurantApp.ViewModels
 
         public EmployeeLowStockVM()
         {
+            if (DesignerProperties.GetIsInDesignMode(new System.Windows.DependencyObject()))
+                return;
             LoadLowStock();
         }
 

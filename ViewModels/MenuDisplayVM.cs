@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.ComponentModel;
 using System.Linq;
 using RestaurantApp.BusinessLogicLayer;
 using RestaurantApp.Helpers;
@@ -16,6 +17,11 @@ namespace RestaurantApp.ViewModels
 
         public MenuDisplayVM()
         {
+            if (DesignerProperties.GetIsInDesignMode(new System.Windows.DependencyObject()))
+            {
+                MenuByCategory = new();
+                return;
+            }
             LoadMenu();
         }
 
