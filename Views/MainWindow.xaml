@@ -3,10 +3,98 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:vm="clr-namespace:RestaurantApp.ViewModels"
         xmlns:local="clr-namespace:RestaurantApp.Views"
         mc:Ignorable="d"
-        Title="MainWindow" Height="450" Width="800">
-    <Grid>
-        
-    </Grid>
+        Title="Restaurant Online" Height="600" Width="900">
+
+    <Window.DataContext>
+        <vm:MainWindowVM />
+    </Window.DataContext>
+
+    <DockPanel>
+        <Menu DockPanel.Dock="Top" Height="30" FontSize="14">
+            <Menu.Background>
+                <LinearGradientBrush StartPoint="0,0" EndPoint="0,1">
+                    <GradientStop Color="#FF2C3E50" Offset="0"/>
+                    <GradientStop Color="#FF34495E" Offset="1"/>
+                </LinearGradientBrush>
+            </Menu.Background>
+            <Menu.Foreground>
+                <SolidColorBrush Color="White"/>
+            </Menu.Foreground>
+
+            <MenuItem Header="Meniu restaurant"
+                      Command="{Binding OpenWindowCommand}"
+                      CommandParameter="Menu"/>
+            <MenuItem Header="Cautare"
+                      Command="{Binding OpenWindowCommand}"
+                      CommandParameter="Search"/>
+
+            <MenuItem Header="Autentificare"
+                      Visibility="{Binding IsNotLoggedIn,
+                      Converter={StaticResource BoolToVisibility}}"
+                      Command="{Binding OpenWindowCommand}"
+                      CommandParameter="Login"/>
+            <MenuItem Header="Inregistrare"
+                      Visibility="{Binding IsNotLoggedIn,
+                      Converter={StaticResource BoolToVisibility}}"
+                      Command="{Binding OpenWindowCommand}"
+                      CommandParameter="Register"/>
+
+            <MenuItem Header="Plaseaza comanda"       
+                      Visibility="{Binding CanOrder,
+                      Converter={StaticResource BoolToVisibility}}"
+                      Command="{Binding OpenWindowCommand}"
+                      CommandParameter="Order"/>
+            <MenuItem Header="Comenzile mele"
+                      Visibility="{Binding CanOrder,
+                      Converter={StaticResource BoolToVisibility}}"
+                      Command="{Binding OpenWindowCommand}"
+                      CommandParameter="MyOrders"/>
+            <MenuItem Header="Administrare"
+                      Visibility="{Binding CanManage,
+                      Converter={StaticResource BoolToVisibility}}">
+                <MenuItem Header="Categorii"
+                          Command="{Binding OpenWindowCommand}"
+                          CommandParameter="EmpCats"/>
+                <MenuItem Header="Preparate"
+                          Command="{Binding OpenWindowCommand}"
+                          CommandParameter="EmpDishes"/>
+                <MenuItem Header="Meniuri"
+                          Command="{Binding OpenWindowCommand}"
+                          CommandParameter="EmpMenus"/>
+            </MenuItem>
+            <MenuItem Header="Comenzi"
+                      Visibility="{Binding CanManage,
+                      Converter={StaticResource BoolToVisibility}}"
+                      Command="{Binding OpenWindowCommand}"
+                      CommandParameter="EmpOrders"/>
+            <MenuItem Header="Stoc redus"
+                      Visibility="{Binding CanManage,
+                      Converter={StaticResource BoolToVisibility}}"
+                      Command="{Binding OpenWindowCommand}"
+                      CommandParameter="EmpLow"/>
+
+            <MenuItem Header="Delogare"
+                      Visibility="{Binding IsLoggedIn,
+                      Converter={StaticResource BoolToVisibility}}"
+                      Command="{Binding LogoutCommand}"/>
+        </Menu>
+
+        <Grid>
+            <Grid.Background>
+                <LinearGradientBrush StartPoint="0,0" EndPoint="1,1">
+                    <GradientStop Color="#FFF5F5F5" Offset="0.0" />
+                    <GradientStop Color="#FFE8E8E8" Offset="1.0" />
+                </LinearGradientBrush>
+            </Grid.Background>
+            <TextBlock HorizontalAlignment="Center"
+                       VerticalAlignment="Center"
+                       FontSize="24"
+                       Foreground="#FF2C3E50"
+                       Text="Bine ati venit la restaurantul nostru!"
+                       TextWrapping="Wrap"/>
+        </Grid>
+    </DockPanel>
 </Window>
