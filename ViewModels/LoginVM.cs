@@ -51,7 +51,7 @@ namespace RestaurantApp.ViewModels
         {
             try
             {
-                var user = UserBLL.Login(Email, Password);
+                var user = userBLL.Login(Email, Password);
                 SessionManager.CurrentUser = user;
                 LoginSuccess = true;
                 ErrorMessage = "";

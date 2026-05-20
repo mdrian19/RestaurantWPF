@@ -134,5 +134,37 @@ namespace RestaurantApp.DataAccessLayer
                 PhotoPaths = r.IsDBNull(7) ? "" : r.GetString(7)
             };
         }
+
+
+        public List<Dish> GetDishesForMenu(int menuId)
+        {
+            using var con = DALHelper.Connection();
+            var cmd = new SqlCommand("GetDishesForMenu", con)
+            {
+                CommandType = CommandType.StoredProcedure
+            };
+            cmd.Parameters.AddWithValue("@menuId", menuId);
+            var result = new List<Dish>();
+            con.Open();
+            using var reader = cmd.ExecuteReader();
+            while (reader.Read())
+            {
+                result.Add(MapDish(reader));
+            }
+            return result;
+        }
+
+        public void AddDishToMenu(int menuId, int dishId)
+        {
+            using var con = DALHelper.Connection();
+            var cmd = new SqlCommand("AddDishToMenu", con)
+            {
+                CommandType = CommandType.StoredProcedure
+            };
+            cmd.Parameters.AddWithValue("@menuId", menuId);
+            cmd.Parameters.AddWithValue("@dishId", dishId);
+            con.Open();
+            cmd.ExecuteNonQuery();
+        }
     }
 }

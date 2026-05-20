@@ -27,9 +27,9 @@ namespace RestaurantApp.ViewModels
 
             foreach (var dish in dishes)
             {
-                if (!MenuByCategory.ContainsKey(dish.Category.Name))
-                    MenuByCategory[dish.Category.Name] = new();
-                MenuByCategory[dish.Category.Name].Add(dish);
+                if (!MenuByCategory.ContainsKey(dish.CategoryName))
+                    MenuByCategory[dish.CategoryName] = new();
+                MenuByCategory[dish.CategoryName].Add(dish);
             }
 
             foreach (var menu in menus)
