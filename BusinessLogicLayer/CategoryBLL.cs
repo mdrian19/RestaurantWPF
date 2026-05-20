@@ -8,7 +8,7 @@ namespace RestaurantApp.BusinessLogicLayer
     public class CategoryBLL
     {
         private readonly CategoryDAL dal = new();
-        public ObservableCollection<Category> CategoryList { get; set; }
+        public ObservableCollection<Category> CategoryList { get; set; } = new();
 
         public ObservableCollection<Category> GetAll()
         {

@@ -1,12 +1,45 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using RestaurantApp.BusinessLogicLayer;
+using RestaurantApp.Helpers;
+using RestaurantApp.Models;
 
 namespace RestaurantApp.ViewModels
 {
-    internal class MenuDisplayVM
+    public class MenuDisplayVM : BasePropertyChanged
     {
+        private readonly DishBLL dishBLL = new();
+        private readonly MenuBLL menuBLL = new();
+
+        public Dictionary<string, ObservableCollection<object>> MenuByCategory { get; set; } = new();
+
+        public MenuDisplayVM()
+        {
+            LoadMenu();
+        }
+
+        private void LoadMenu()
+        {
+            MenuByCategory = new();
+            var dishes = dishBLL.GetAll();
+            var menus = menuBLL.GetAll();
+
+            foreach (var dish in dishes)
+            {
+                if (!MenuByCategory.ContainsKey(dish.Category.Name))
+                    MenuByCategory[dish.Category.Name] = new();
+                MenuByCategory[dish.Category.Name].Add(dish);
+            }
+
+            foreach (var menu in menus)
+            {
+                if (!MenuByCategory.ContainsKey(menu.Name))
+                    MenuByCategory[menu.Name] = new();
+                MenuByCategory[menu.Name].Add(menu);
+            }
+        }
+
+        public bool IsEmployee => SessionManager.IsEmployee;
     }
 }

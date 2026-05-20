@@ -1,12 +1,65 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Windows.Input;
+using RestaurantApp.BusinessLogicLayer;
+using RestaurantApp.Exceptions;
+using RestaurantApp.Helpers;
 
 namespace RestaurantApp.ViewModels
 {
-    internal class LoginVM
+    public class LoginVM : BasePropertyChanged
     {
+        private readonly UserBLL userBLL = new();
+
+        private string email = "";
+        public string Email
+        {
+            get => email;
+            set
+            {
+                email = value;
+                NotifyPropertyChanged();
+            }
+        }
+
+        public string Password { get; set; } = "";
+
+        private string errorMessage = "";
+        public string ErrorMessage
+        {
+            get => errorMessage;
+            set
+            {
+                errorMessage = value;
+                NotifyPropertyChanged();
+            }
+        }
+
+        private bool loginSuccess;
+        public bool LoginSuccess
+        {
+            get => loginSuccess;
+            set
+            {
+                loginSuccess = value;
+                NotifyPropertyChanged();
+            }
+        }
+
+        private ICommand? _loginCmd;
+        public ICommand LoginCommand => _loginCmd ??= new RelayCommand<object>(_ => DoLogin());
+
+        private void DoLogin()
+        {
+            try
+            {
+                var user = UserBLL.Login(Email, Password);
+                SessionManager.CurrentUser = user;
+                LoginSuccess = true;
+                ErrorMessage = "";
+            }
+            catch (RestaurantException ex)
+            {
+                ErrorMessage = ex.Message;
+            }
+        }
     }
 }
