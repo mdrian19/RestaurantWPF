@@ -1,4 +1,5 @@
 ﻿using System.Collections.ObjectModel;
+using System.Linq;
 using System.Windows.Input;
 using RestaurantApp.BusinessLogicLayer;
 using RestaurantApp.Exceptions;
@@ -58,9 +59,9 @@ namespace RestaurantApp.ViewModels
         {
             get => selectedAllergen;
             set
-            { 
-                selectedAllergen = value; 
-                NotifyPropertyChanged(); 
+            {
+                selectedAllergen = value;
+                NotifyPropertyChanged();
             }
         }
 
@@ -69,9 +70,9 @@ namespace RestaurantApp.ViewModels
         {
             get => errorMessage;
             set
-            { 
-                errorMessage = value; 
-                NotifyPropertyChanged(); 
+            {
+                errorMessage = value;
+                NotifyPropertyChanged();
             }
         }
 
@@ -85,7 +86,6 @@ namespace RestaurantApp.ViewModels
             NotifyPropertyChanged(nameof(AllAllergens));
         }
 
-
         private ICommand _addCmd;
         public ICommand AddCommand => _addCmd ??=
             new RelayCommand<object>(DoAdd);
@@ -97,6 +97,9 @@ namespace RestaurantApp.ViewModels
                 Dish? dish = obj as Dish;
                 if (dish != null)
                 {
+                    dish.CategoryName = CategoryList
+                        .FirstOrDefault(c => c.CategoryID == dish.CategoryID)?.Name ?? "";
+
                     dishBLL.Add(dish);
                     ErrorMessage = "";
                 }
@@ -123,6 +126,9 @@ namespace RestaurantApp.ViewModels
                 Dish? dish = obj as Dish;
                 if (dish != null)
                 {
+                    dish.CategoryName = CategoryList
+                        .FirstOrDefault(c => c.CategoryID == dish.CategoryID)?.Name ?? "";
+
                     dishBLL.Update(dish);
                     ErrorMessage = "";
                 }
@@ -138,7 +144,6 @@ namespace RestaurantApp.ViewModels
             }
         }
 
- 
         private ICommand _deleteCmd;
         public ICommand DeleteCommand => _deleteCmd ??=
             new RelayCommand<object>(DoDelete);
@@ -166,7 +171,6 @@ namespace RestaurantApp.ViewModels
             }
         }
 
-    
         private ICommand _addAllergenCmd;
         public ICommand AddAllergenCommand => _addAllergenCmd ??=
             new RelayCommand<object>(_ => DoAddAllergen());
@@ -196,7 +200,6 @@ namespace RestaurantApp.ViewModels
                 ErrorMessage = ex.Message;
             }
         }
-
 
         private ICommand _removeAllergenCmd;
         public ICommand RemoveAllergenCommand => _removeAllergenCmd ??=

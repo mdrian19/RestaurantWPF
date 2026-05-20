@@ -16,7 +16,7 @@ namespace RestaurantApp.BusinessLogicLayer
                     "Introduci adresa de email.");
             if (string.IsNullOrWhiteSpace(password))
                 throw new RestaurantException(
-                    "Introduce parola.");
+                    "Introdu parola.");
 
             var user = dal.Login(email, password);
             if (user == null)

@@ -143,7 +143,9 @@
                       ItemsSource="{Binding DishList}"
                       SelectedItem="{Binding SelectedDish}"
                       AutoGenerateColumns="False"
-                      IsReadOnly="True" Margin="0,0,10,0"
+                      IsReadOnly="True"
+                      CanUserAddRows="False"
+                      Margin="0,0,10,0"
                       ScrollViewer.VerticalScrollBarVisibility="Visible">
                 <DataGrid.Columns>
                     <DataGridTextColumn Header="Denumire"
@@ -158,7 +160,7 @@
                     <DataGridTextColumn Header="Stoc total"
                         Binding="{Binding TotalQuantity}" Width="80"/>
                     <DataGridTextColumn Header="Disponibil"
-                        Binding="{Binding IsAvailable}" Width="75"/>
+                        Binding="{Binding IsAvailable}" Width="*"/>
                 </DataGrid.Columns>
             </DataGrid>
 
@@ -205,3 +207,4 @@
         </Grid>
     </Grid>
 </Window>
+

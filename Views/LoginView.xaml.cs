@@ -11,6 +11,7 @@ using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
+using RestaurantApp.ViewModels;
 
 namespace RestaurantApp.Views
 {
@@ -28,14 +29,19 @@ namespace RestaurantApp.Views
         {
             pbPassword.PasswordChanged += (s, args) =>
             {
-                if (DataContext is ViewModels.LoginVM vm)
+                if (DataContext is LoginVM vm)
                     vm.Password = pbPassword.Password;
             };
-        }
 
-        protected override void OnPropertyChanged(DependencyPropertyChangedEventArgs e)
-        {
-            base.OnPropertyChanged(e);
+            if (DataContext is LoginVM viewModel)
+            {
+                viewModel.PropertyChanged += (s, args) =>
+                {
+                    if (args.PropertyName == nameof(LoginVM.LoginSuccess)
+                        && viewModel.LoginSuccess)
+                        Close();
+                };
+            }
         }
     }
 }

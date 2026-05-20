@@ -1,4 +1,5 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using System.Configuration;
+using Microsoft.EntityFrameworkCore;
 using RestaurantApp.Models;
 
 namespace RestaurantApp.DataAccessLayer
@@ -17,10 +18,8 @@ namespace RestaurantApp.DataAccessLayer
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
-            optionsBuilder.UseSqlServer(
-                @"Server=.\SQLEXPRESS;Database=RestaurantDB;" +
-                @"Trusted_Connection=true;Encrypt=false;" +
-                @"TrustServerCertificate=true");
+            var cs = ConfigurationManager.ConnectionStrings["RestaurantDB"]?.ConnectionString;
+            optionsBuilder.UseSqlServer(cs);
         }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)

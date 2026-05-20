@@ -3,7 +3,7 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:vm="clr-namespace:RestaurantApp.ViewModels"
         xmlns:conv="clr-namespace:RestaurantApp.Converters"
-        Title="Plaseaza comanda" Height="600" Width="850">
+        Title="Plaseaza comanda" Height="600" Width="950">
     <Window.DataContext>
         <vm:ClientOrderVM/>
     </Window.DataContext>
@@ -34,6 +34,7 @@
                   SelectedItem="{Binding SelectedDish}"
                   AutoGenerateColumns="False"
                   IsReadOnly="True"
+                  CanUserAddRows="False"
                   Margin="0,0,10,0"
                   ScrollViewer.VerticalScrollBarVisibility="Visible">
             <DataGrid.Columns>
@@ -45,7 +46,7 @@
                     Binding="{Binding DisplayQuantity}" Width="110"/>
                 <DataGridTextColumn Header="Pret (lei)"
                     Binding="{Binding Price, StringFormat={}{0:F2}}"
-                    Width="80"/>
+                    Width="*"/>
             </DataGrid.Columns>
         </DataGrid>
 
@@ -70,6 +71,7 @@
                   ItemsSource="{Binding CartItems}"
                   AutoGenerateColumns="False"
                   IsReadOnly="True"
+                  CanUserAddRows="False"
                   ScrollViewer.VerticalScrollBarVisibility="Visible">
             <DataGrid.Columns>
                 <DataGridTextColumn Header="Produs"
@@ -77,20 +79,19 @@
                 <DataGridTextColumn Header="Cant."
                     Binding="{Binding Quantity}" Width="50"/>
                 <DataGridTextColumn Header="Pret unitar"
-                    Binding="{Binding UnitPrice,
-                        StringFormat={}{0:F2}}" Width="80"/>
+                    Binding="{Binding UnitPrice, StringFormat={}{0:F2}}"
+                    Width="80"/>
                 <DataGridTextColumn Header="Total"
-                    Binding="{Binding LineTotal,
-                        StringFormat={}{0:F2}}" Width="80"/>
-                <DataGridTemplateColumn Header="Sterge" Width="70">
+                    Binding="{Binding LineTotal, StringFormat={}{0:F2}}"
+                    Width="80"/>
+                <DataGridTemplateColumn Header="Sterge" Width="*">
                     <DataGridTemplateColumn.CellTemplate>
                         <DataTemplate>
                             <Button Content="X"
                                     Width="40" Height="22"
                                     Foreground="Red"
                                     Command="{Binding DataContext.RemoveFromCartCommand,
-                                        RelativeSource={RelativeSource
-                                            AncestorType=Window}}"
+                                        RelativeSource={RelativeSource AncestorType=Window}}"
                                     CommandParameter="{Binding}"/>
                         </DataTemplate>
                     </DataGridTemplateColumn.CellTemplate>
@@ -113,7 +114,7 @@
         </StackPanel>
 
         <Button Grid.Row="3" Grid.Column="1"
-                Content="Plaseaza Comanda"
+                Content="Plaseaza comanda"
                 Height="38" FontSize="15"
                 FontWeight="Bold"
                 Background="#FF27AE60"
@@ -122,3 +123,4 @@
                 Command="{Binding PlaceOrderCommand}"/>
     </Grid>
 </Window>
+

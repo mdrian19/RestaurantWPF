@@ -45,12 +45,15 @@ namespace RestaurantApp.ViewModels
         }
 
         private ICommand? _loginCmd;
-        public ICommand LoginCommand => _loginCmd ??= new RelayCommand<object>(_ => DoLogin());
+        public ICommand LoginCommand => _loginCmd ??= new RelayCommand<object>(DoLogin);
 
-        private void DoLogin()
+        private void DoLogin(object? parameter)
         {
             try
             {
+                if (parameter is string pwd && !string.IsNullOrWhiteSpace(pwd))
+                    Password = pwd;
+
                 var user = userBLL.Login(Email, Password);
                 SessionManager.CurrentUser = user;
                 LoginSuccess = true;

@@ -44,6 +44,8 @@ namespace RestaurantApp.ViewModels
                     MenuByCategory[menu.Name] = new();
                 MenuByCategory[menu.Name].Add(menu);
             }
+
+            NotifyPropertyChanged(nameof(MenuByCategory));
         }
 
         public bool IsEmployee => SessionManager.IsEmployee;
