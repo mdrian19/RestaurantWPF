@@ -99,16 +99,20 @@ namespace RestaurantApp.ViewModels
             try
             {
                 Category? cat = obj as Category;
-                if (cat != null)
+                if (cat == null)
                 {
-                    categoryBLL.Delete(cat);
-                    ErrorMessage = "";
-                }
-                else
-                {
-                    ErrorMessage = "Nu s-a putut sterge categoria.";
+                    ErrorMessage = "Selecteaza o categorie de sters.";
                     return;
                 }
+                var result = System.Windows.MessageBox.Show($"Esti sigur ca vrei sa stergi categoria {cat.Name}?", 
+                    "Confirmare stergere", System.Windows.MessageBoxButton.YesNo,
+                    System.Windows.MessageBoxImage.Warning);
+
+                if (result != System.Windows.MessageBoxResult.Yes)
+                    return;
+
+                categoryBLL.Delete(cat);
+                ErrorMessage = "";
             }
             catch (RestaurantException ex)
             {
