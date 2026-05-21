@@ -106,6 +106,11 @@ namespace RestaurantApp.ViewModels
                 ErrorMessage = "Cantitatea trebuie sa fie > 0.";
                 return;
             }
+            if (Quantity > SelectedDish.TotalQuantity)
+            {
+                ErrorMessage = $"Cantitatea disponibila pentru {SelectedDish.Name} este {SelectedDish.TotalQuantity}.";
+                return;
+            }
 
             var existing = null as OrderItem;
             foreach (var item in CartItems)
