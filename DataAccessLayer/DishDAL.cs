@@ -130,7 +130,7 @@ namespace RestaurantApp.DataAccessLayer
                 Price = r.GetDecimal(3),
                 PortionQuantity = r.GetDecimal(4),
                 PortionUnit = r.GetString(5),
-                TotalQuantity = r.GetDecimal(6),
+                TotalQuantity = r.GetInt32(6),
                 PhotoPaths = r.IsDBNull(7) ? "" : r.GetString(7)
             };
         }

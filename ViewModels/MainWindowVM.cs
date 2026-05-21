@@ -59,6 +59,9 @@ namespace RestaurantApp.ViewModels
                 case "EmpMenus":
                     new EmployeeMenuView().ShowDialog();
                     break;
+                case "EmpAllergens":
+                    new EmployeeAllergenView().ShowDialog();
+                    break;
             }
         }
 

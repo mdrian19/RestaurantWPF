@@ -78,7 +78,7 @@ namespace RestaurantApp.DataAccessLayer
             return ReadOrders(cmd, con, true);
         }
 
-        public void DecreaseDishStock(int dishId, decimal qty)
+        public void DecreaseDishStock(int dishId, int qty)
         {
             using var con = DALHelper.Connection();
             var cmd = new SqlCommand("DecreaseDishStock", con)

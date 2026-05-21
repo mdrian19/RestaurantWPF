@@ -84,8 +84,8 @@ namespace RestaurantApp.Models
             }
         }
 
-        private decimal totalQuantity;
-        public decimal TotalQuantity
+        private int totalQuantity;
+        public int TotalQuantity
         {
             get => totalQuantity;
             set

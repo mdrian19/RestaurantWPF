@@ -43,8 +43,7 @@
                     <WrapPanel Margin="0,0,0,6">
                         <TextBlock FontSize="13" Margin="0,4,0,0">
                             <Run Text="Pret calculat: "/>
-                            <Run Text="{Binding MenuPrice,
-                                     StringFormat={}{0:F2}}"
+                            <Run Text="{Binding MenuPrice, Mode=OneWay, StringFormat={}{0:F2}}"
                                  FontWeight="Bold"
                                  Foreground="#FF27AE60"/>
                             <Run Text=" lei"/>

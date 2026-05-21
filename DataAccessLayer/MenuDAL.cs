@@ -52,7 +52,7 @@ namespace RestaurantApp.DataAccessLayer
                     Price = reader.GetDecimal(3),
                     PortionQuantity = reader.GetDecimal(4),
                     PortionUnit = reader.GetString(5),
-                    TotalQuantity = reader.GetDecimal(6),
+                    TotalQuantity = reader.GetInt32(6),
                     PhotoPaths = reader.IsDBNull(7) ? "" : reader.GetString(7)
                 });
             }

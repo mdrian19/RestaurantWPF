@@ -24,10 +24,7 @@ namespace RestaurantApp.Converters
                     System.Globalization.CultureInfo.InvariantCulture,
                     out decimal portionQty))
                 return null!;
-            if (!decimal.TryParse(values[5].ToString(),
-                    System.Globalization.NumberStyles.Any,
-                    System.Globalization.CultureInfo.InvariantCulture,
-                    out decimal totalQty))
+            if (!int.TryParse(values[5].ToString(), out int totalQty))
                 return null!;
 
             return new Dish

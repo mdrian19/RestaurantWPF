@@ -169,6 +169,7 @@ namespace RestaurantApp.ViewModels
                 {
                     Name = NewMenuName,
                     CategoryID = SelectedCategory?.CategoryID,
+                    CategoryName = SelectedCategory?.Name ?? "",
                     Dishes = new System.Collections.Generic.List<Dish>(MenuDishes)
                 };
                 menuBLL.Add(menu);
@@ -198,7 +199,11 @@ namespace RestaurantApp.ViewModels
                     ErrorMessage = "Selecteaza un meniu din lista.";
                     return;
                 }
+
+                SelectedMenu.CategoryID = SelectedCategory?.CategoryID;
+                SelectedMenu.CategoryName = SelectedCategory?.Name ?? "";
                 SelectedMenu.Dishes = new System.Collections.Generic.List<Dish>(MenuDishes);
+
                 menuBLL.Update(SelectedMenu);
                 NotifyPropertyChanged(nameof(MenuPrice));
                 ErrorMessage = "";

@@ -39,8 +39,17 @@
                                                            Foreground="Red"                                                     
                                                            FontWeight="Bold"                                                    
                                                            FontSize="12"                                                     
-                                                           Visibility="{Binding IsAvailable,                                                         
-                                                           Converter={StaticResource BoolToVisibility}}"/>
+                                                           Visibility="Collapsed">
+                                                    <TextBlock.Style>
+                                                        <Style TargetType="TextBlock">
+                                                            <Style.Triggers>
+                                                                <DataTrigger Binding="{Binding IsAvailable}" Value="False">
+                                                                    <Setter Property="Visibility" Value="Visible"/>
+                                                                </DataTrigger>
+                                                            </Style.Triggers>
+                                                        </Style>
+                                                    </TextBlock.Style>
+                                                </TextBlock>
                                             </StackPanel>
                                             <TextBlock Grid.Column="1"                                                 
                                                        Text="{Binding Price, StringFormat={}{0:F2} lei}"                                                 

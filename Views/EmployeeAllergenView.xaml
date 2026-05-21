@@ -8,7 +8,7 @@
         <vm:EmployeeAllergenVM/>
     </Window.DataContext>
     <Window.Resources>
-        <conv:CategoryConverter x:Key="allergenConvert"/>
+        <conv:AllergenConverter x:Key="allergenConvert"/>
     </Window.Resources>
 
     <StackPanel Margin="15">

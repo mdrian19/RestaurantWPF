@@ -52,6 +52,9 @@ namespace RestaurantApp.BusinessLogicLayer
             {
                 item.OrderID = order.OrderID;
                 itemDAL.AddOrderItem(item);
+
+                if (item.DishID.HasValue)
+                    orderDAL.DecreaseDishStock(item.DishID.Value, item.Quantity);
             }
         }
 
@@ -64,14 +67,6 @@ namespace RestaurantApp.BusinessLogicLayer
 
             orderDAL.UpdateOrderStatus(order.OrderID ?? 0, newStatus);
             order.Status = newStatus;
-
-            if (newStatus == "Livrata")
-            {
-                foreach (var item in order.Items.Where(i => i.DishID.HasValue))
-                {
-                    orderDAL.DecreaseDishStock(item.DishID!.Value, item.Quantity);  
-                }
-            }
         }
 
         public void CancelOrder(Order order)

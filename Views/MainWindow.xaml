@@ -56,14 +56,21 @@
                       Visibility="{Binding CanManage,
                       Converter={StaticResource BoolToVisibility}}">
                 <MenuItem Header="Categorii"
+                          Foreground="DarkBlue"
                           Command="{Binding OpenWindowCommand}"
                           CommandParameter="EmpCats"/>
                 <MenuItem Header="Preparate"
+                          Foreground="DarkBlue"
                           Command="{Binding OpenWindowCommand}"
                           CommandParameter="EmpDishes"/>
                 <MenuItem Header="Meniuri"
+                          Foreground="DarkBlue"
                           Command="{Binding OpenWindowCommand}"
                           CommandParameter="EmpMenus"/>
+                <MenuItem Header="Alergeni"
+                          Foreground="DarkBlue"
+                          Command="{Binding OpenWindowCommand}"
+                          CommandParameter="EmpAllergens"/>
             </MenuItem>
             <MenuItem Header="Comenzi"
                       Visibility="{Binding CanManage,

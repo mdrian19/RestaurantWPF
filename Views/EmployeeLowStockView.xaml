@@ -11,9 +11,9 @@
         <WrapPanel Margin="0,0,0,12">
             <TextBlock FontSize="14">
                 <Run Text="Preparate cu stoc mai mic sau egal decat "/>
-                <Run Text="{Binding Threshold}"
+                <Run Text="{Binding Threshold, Mode=OneWay}"
                      FontWeight="Bold" Foreground="#FFE74C3C"/>
-                <Run Text=" g"/>
+                <Run Text=" buc"/>
             </TextBlock>
             <Button Content="Reimprospateaza"
                     Width="130" Height="28"
@@ -28,13 +28,11 @@
             <DataGrid.Columns>
                 <DataGridTextColumn Header="Denumire Preparat"
                     Binding="{Binding Name}" Width="*"/>
-                <DataGridTextColumn Header="Stoc Total"
-                    Binding="{Binding TotalQuantity,
-                        StringFormat={}{0:F3}}" Width="110"/>
-                <DataGridTextColumn Header="Unitate"
-                    Binding="{Binding PortionUnit}" Width="70"/>
+                <DataGridTextColumn Header="Stoc (buc)"
+                    Binding="{Binding TotalQuantity, StringFormat={}{0:0}}"
+                    Width="110"/>
             </DataGrid.Columns>
-            
+
             <DataGrid.RowStyle>
                 <Style TargetType="DataGridRow">
                     <Style.Triggers>
@@ -51,3 +49,4 @@
         </DataGrid>
     </StackPanel>
 </Window>
+

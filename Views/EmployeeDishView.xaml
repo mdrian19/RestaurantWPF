@@ -157,8 +157,9 @@
                             StringFormat={}{0:F2}}" Width="70"/>
                     <DataGridTextColumn Header="Cant./portie"
                         Binding="{Binding DisplayQuantity}" Width="90"/>
-                    <DataGridTextColumn Header="Stoc total"
-                        Binding="{Binding TotalQuantity}" Width="80"/>
+                    <DataGridTextColumn Header="Stoc (buc)"
+                        Binding="{Binding TotalQuantity, StringFormat={}{0:0}}"
+                        Width="80"/>
                     <DataGridTextColumn Header="Disponibil"
                         Binding="{Binding IsAvailable}" Width="*"/>
                 </DataGrid.Columns>
