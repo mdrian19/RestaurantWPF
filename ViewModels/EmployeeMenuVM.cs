@@ -222,6 +222,13 @@ namespace RestaurantApp.ViewModels
         {
             try
             {
+                var result = System.Windows.MessageBox.Show($"Esti sigur ca vrei sa stergi meniul {SelectedMenu.Name}?",
+                    "Confirmare stergere", System.Windows.MessageBoxButton.YesNo,
+                    System.Windows.MessageBoxImage.Warning);
+
+                if (result != System.Windows.MessageBoxResult.Yes)
+                    return;
+
                 menuBLL.Delete(SelectedMenu);
                 MenuDishes = new();
                 ErrorMessage = "";

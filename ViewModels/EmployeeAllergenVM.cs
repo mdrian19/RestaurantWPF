@@ -100,16 +100,20 @@ namespace RestaurantApp.ViewModels
             try
             {
                 Allergen? allergen = obj as Allergen;
-                if (allergen != null)
+                if (allergen == null)
                 {
-                    allergenBLL.Delete(allergen);
-                    ErrorMessage = "";
-                }
-                else
-                {
-                    ErrorMessage = "Nu s-a putut sterge alergenul.";
+                    ErrorMessage = "Selectati un alergen de sters.";
                     return;
                 }
+                var result = System.Windows.MessageBox.Show($"Esti sigur ca vrei sa stergi alergenul {allergen.Name}?",
+                    "Confirmare stergere", System.Windows.MessageBoxButton.YesNo,
+                    System.Windows.MessageBoxImage.Warning);
+
+                if (result != System.Windows.MessageBoxResult.Yes)
+                    return;
+
+                allergenBLL.Delete(allergen);
+                ErrorMessage = "";
             }
             catch (RestaurantException ex)
             {

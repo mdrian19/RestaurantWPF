@@ -153,17 +153,21 @@ namespace RestaurantApp.ViewModels
             try
             {
                 Dish? dish = obj as Dish;
-                if (dish != null)
+                if (dish == null)
                 {
-                    dishBLL.Delete(dish);
-                    ErrorMessage = "";
-                    SelectedDishAllergens = new();
-                }
-                else
-                {
-                    ErrorMessage = "Nu s-a putut sterge preparatul.";
+                    ErrorMessage = "Alegeti un preparat de sters.";
                     return;
                 }
+                var result = System.Windows.MessageBox.Show($"Esti sigur ca vrei sa stergi preparatul {dish.Name}?",
+                    "Confirmare stergere", System.Windows.MessageBoxButton.YesNo,
+                    System.Windows.MessageBoxImage.Warning);
+
+                if (result != System.Windows.MessageBoxResult.Yes)
+                    return;
+        
+                dishBLL.Delete(dish);
+                ErrorMessage = "";
+                SelectedDishAllergens = new();
             }
             catch (RestaurantException ex)
             {

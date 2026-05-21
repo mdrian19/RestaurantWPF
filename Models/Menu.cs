@@ -64,5 +64,8 @@ namespace RestaurantApp.Models
         public string DisplayDishes =>
             string.Join(", ", Dishes.Select(d =>
                 $"{d.Name} - {d.PortionQuantity}{d.PortionUnit}"));
+
+        public string ImagePath =>
+            Dishes.FirstOrDefault()?.ImagePath ?? "";
     }
 }

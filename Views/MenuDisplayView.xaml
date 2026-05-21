@@ -28,6 +28,7 @@
                                             <Grid.ColumnDefinitions>
                                                 <ColumnDefinition Width="*"/>
                                                 <ColumnDefinition Width="Auto"/>
+                                                <ColumnDefinition Width="Auto"/>
                                             </Grid.ColumnDefinitions>
                                             <StackPanel Grid.Column="0">
                                                 <TextBlock Text="{Binding Name}"                                                     
@@ -51,7 +52,9 @@
                                                     </TextBlock.Style>
                                                 </TextBlock>
                                             </StackPanel>
-                                            <TextBlock Grid.Column="1"                                                 
+                                            <Image Grid.Column="1" Width="Auto" Height="30" Margin="10,0"
+                                                   Source="{Binding ImagePath, Converter={StaticResource ImagePathConverter}}"/>
+                                            <TextBlock Grid.Column="2"                                                 
                                                        Text="{Binding Price, StringFormat={}{0:F2} lei}"                                                 
                                                        FontSize="14"                                                 
                                                        FontWeight="Bold"                                                 

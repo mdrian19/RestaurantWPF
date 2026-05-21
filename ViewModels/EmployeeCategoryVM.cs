@@ -104,7 +104,7 @@ namespace RestaurantApp.ViewModels
                     ErrorMessage = "Selecteaza o categorie de sters.";
                     return;
                 }
-                var result = System.Windows.MessageBox.Show($"Esti sigur ca vrei sa stergi categoria {cat.Name}?", 
+                var result = System.Windows.MessageBox.Show($"Esti sigur ca vrei sa stergi categoria {cat.Name}?\nToate preparatele si meniurile din aceasta categorie vor fi sterse.", 
                     "Confirmare stergere", System.Windows.MessageBoxButton.YesNo,
                     System.Windows.MessageBoxImage.Warning);
 

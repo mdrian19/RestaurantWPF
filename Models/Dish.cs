@@ -1,5 +1,7 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using System.Linq;
 using RestaurantApp.Helpers;
 
 namespace RestaurantApp.Models
@@ -103,9 +105,15 @@ namespace RestaurantApp.Models
             {
                 photoPaths = value;
                 NotifyPropertyChanged();
+                NotifyPropertyChanged(nameof(ImagePath));
             }
         }
 
+        public string ImagePath =>
+            (PhotoPaths ?? "")
+                .Split(new[] { ';', ',' }, StringSplitOptions.RemoveEmptyEntries)
+                .Select(p => p.Trim())
+                .FirstOrDefault() ?? "";
         public List<Allergen> Allergens { get; set; } = new();
 
         public bool IsAvailable => TotalQuantity > 0;
